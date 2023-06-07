@@ -3,10 +3,10 @@
         "enabled": true,
         "unity_hub": "'F:/Program Files/x64/Unity Hub/Unity Hub.exe'",
         "google_chrome": "'C:/Program Files/Google/Chrome/Application/chrome.exe' --profile-directory=Default",
-        "visual_studio": ""
+        "visual_studio": "'C:/Users/Tron/AppData/Local/Programs/Microsoft VS Code/Code.exe'"
     },
     "tts": {
-        "enabled": false,
+        "enabled": true,
         "use_elevenlabs": true
     },
     "classify": {

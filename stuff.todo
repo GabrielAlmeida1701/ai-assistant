@@ -3,7 +3,7 @@ TODOs:
         the table should have the user massage, the bot's message and a creation date
         when creating context the X more recent messages should be pulled
         for refinig the bot's training data all messages should be pulled
-    ☐ Replace websockets with http server
+    ✔ Replace websockets with http server @done(23-06-07 19:23)
     Overlay:
         ✔ Minimize button @done(23-06-05 13:57)
         ✔ Close button @done(23-06-05 14:15)
@@ -15,7 +15,9 @@ TODOs:
         ✔ Websocket (server) @done(23-06-07 01:06)
         ✔ Websocket (client) @done(23-06-07 01:06)
         ☐ When minimized move head up when talking
+    ☐ Reload nescessary settings on save
     ☐ Add rotine to collect and sumirize the conversations for the previous day
+    ☐ Add a way for when returning the last message also go through the plugins again
     ☐ Add langchain to pipeline
         when requesting something it should go through RetrievalQA.from_chain_type
         langchain & chroma are responsable for older context
@@ -25,6 +27,11 @@ TODOs:
             CHROMA
             HISTORY
             User_Input...
+    ☐ Add more info to the context
+        ☐ Current user emotion (based on last user_input)
+        ☐ Current bot emotion (based on last response)
+        ☐ Current time
+        ☐ Last message time
 
 Plugins:
     ☐ Take notes

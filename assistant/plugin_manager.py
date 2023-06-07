@@ -50,4 +50,4 @@ class PluginManager():
             result = plugin.process(gpt_response)
             if result is not None:
                 output[type(plugin).__name__] = result
-        return json.dumps(output)
+        return output

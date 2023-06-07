@@ -74,4 +74,6 @@ class TextToSpeach(PluginBase):
         val = val.replace(':3', '').replace(':)', '').replace(':D', '').replace(':(', '')
         val = val.replace('plz', 'please')
         val = re.sub("\bnp\b", "no problem", val)
+        val = val.replace('^^', '')
+        val = val.replace('<3', '')
         return f'"{val.strip()}"'

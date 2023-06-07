@@ -1,57 +1,81 @@
 import json
-import asyncio
-from websockets.server import serve
+import urllib.parse
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import urlparse, parse_qs
 from assistant import conversation_handler, logger
 from assistant.data_manager import load_settings, save_settings
-# from assistant.gpt_loader import model_loader, shared
+from assistant.gpt_loader import model_loader
 
 
 SERVER_PORT = 6969
-client = None
 
-async def _handle_connection(websocket, path):
-    async for message in websocket:
-        command = message[:4]
-        logger.info(f'Reciving message of type: {command}')
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/api/chat':
+            anwser = conversation_handler.get_last_message()
+            response = json.dumps(anwser)
 
-        try:
-            if command == '-hi-':
-                response = conversation_handler.get_last_message()
-                await websocket.send(response)
-            elif command == 'text':
-                response = conversation_handler.ask_yumi(message[5:])
-                await websocket.send(response)
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(response.encode('utf-8'))
 
-            elif command == 'load':
-                settings = load_settings(message[5:])
-                result = {
-                    'key': message[5:],
-                    'settings': settings
-                }
-                await websocket.send(json.dumps(result))
-            elif command == 'save':
-                data_to_save = json.loads(message[5:])
-                key = data_to_save['key']
-                settings = data_to_save['settings']
-                save_settings(key, settings)
-                continue
-        except Exception as e:
-            logger.error(f'[YUMIAI] Erro while handling {command}: {str(e)}')
+        if self.path.startswith('/api/settings'):
+            parsed_url = urlparse(self.path)
+            params = parse_qs(parsed_url.query)
 
-async def _run():
-    async with serve(_handle_connection, '127.0.0.1', SERVER_PORT, ping_interval=None):
-        await asyncio.Future()
+            key = params['key'][0]
+            settings = load_settings(key)
+            result = {
+                'key': key,
+                'settings': settings
+            }
+            response = json.dumps(result)
+
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(response.encode('utf-8'))
+        else:
+            self.send_error(404)
+
+    def do_POST(self):
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length).decode('utf-8')
+        decoded_data = urllib.parse.unquote(post_data)
+        body = json.loads(decoded_data)
+
+        if self.path == '/api/chat':
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+
+            message = body['text']
+            anwser = conversation_handler.ask_yumi(message)
+            response = json.dumps(anwser)
+
+            self.wfile.write(response.encode('utf-8'))
+        if self.path == '/api/settings':
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+
+            key = body['key']
+            settings = body['settings']
+            save_settings(key, settings)
+
+            response = json.dumps({ 'success': True })
+            self.wfile.write(response.encode('utf-8'))
+        else:
+            self.send_error(404)
 
 try:
-    logger.info(f'Starting streaming server at ws://127.0.0.1:{SERVER_PORT}')
-    asyncio.run(_run())
+    server = ThreadingHTTPServer(('127.0.0.1', SERVER_PORT), Handler)
+    logger.info(f'Starting server at http://127.0.0.1:{SERVER_PORT}')
+    server.serve_forever()
 except KeyboardInterrupt:
     pass
 except Exception as e:
     logger.error(str(e))
-
-# plugins = plugin_manager.PluginManager()
-# plugins.initialize_plugins()
-
-# response, tokens_count = gpt_caller.ask("Yumi do you love me?")
-# plugins.process(response)
+finally:
+    model_loader.clear_torch_cache()

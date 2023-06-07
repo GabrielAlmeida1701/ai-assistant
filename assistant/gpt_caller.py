@@ -77,7 +77,9 @@ def num_tokens_from_messages(messages: list[str]) -> int:
 def remove_emojis(text: str) -> str:
     emoji_mapping = {
         '\ude0a': '',
-        '\ud83d': ''
+        '\ud83d': '',
+        '\u2764': '',
+        '\ufe0f': ''
     }
     output = emoji_pattern.sub(lambda match: emoji_mapping.get(match.group(0), match.group(0)), text)
     return re.sub(r'[\U0001F000-\U0001FFFF]', '', output)
@@ -90,6 +92,8 @@ def clean_response(response: str) -> str:
     stop_index = response.find('User:')
     if stop_index != -1:
         response = response[:stop_index]
+
+    response = response.replace('\^\^', '^^')
 
     return response
 
@@ -139,5 +143,6 @@ def ask(user_input: str) -> tuple[str, int]:
         add_to_history(f'User: {user_input}')
         add_to_history(response)
 
+    logger.info(f'Question: {user_input}')
     logger.info(f'Response: {response}')
     return response[6:].strip(), tokens_count
