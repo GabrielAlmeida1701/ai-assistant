@@ -23,16 +23,20 @@ emoji_pattern = re.compile('[\U0001F300-\U0001F64F'
 
 def get_generation_params(prompt: str) -> dict:
     stopping_strings = [ 'User:', 'user:' ]
+    temperature = float(llm_settings['temperature']) if isinstance(llm_settings['temperature'], str) else llm_settings['temperature']
+    top_p = float(llm_settings['top_p']) if isinstance(llm_settings['top_p'], str) else llm_settings['top_p']
+    repetition_penalty = float(llm_settings['repetition_penalty']) if isinstance(llm_settings['repetition_penalty'], str) else llm_settings['repetition_penalty']
+
     return {
         'prompt': prompt,
         'max_new_tokens': llm_settings['max_new_tokens'],
         'do_sample': True,
-        'temperature': llm_settings['temperature'],
-        'top_p': llm_settings['top_p'],
+        'temperature': temperature,
+        'top_p': top_p,
         'typical_p': 1,
         'epsilon_cutoff': 0,  # In units of 1e-4
         'eta_cutoff': 0,  # In units of 1e-4
-        'repetition_penalty': llm_settings['repetition_penalty'],
+        'repetition_penalty': repetition_penalty,
         'encoder_repetition_penalty': 1.0,
         'top_k': 40,
         'min_length': 3,

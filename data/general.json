@@ -1,5 +1,5 @@
 {
     "use_api": false,
-    "test_mode": true,
+    "test_mode": false,
     "hiatus_time": 360
 }

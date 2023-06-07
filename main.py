@@ -3,6 +3,7 @@ import asyncio
 from websockets.server import serve
 from assistant import conversation_handler, logger
 from assistant.data_manager import load_settings, save_settings
+# from assistant.gpt_loader import model_loader, shared
 
 
 SERVER_PORT = 6969
@@ -23,7 +24,11 @@ async def _handle_connection(websocket, path):
 
             elif command == 'load':
                 settings = load_settings(message[5:])
-                await websocket.send(json.dumps(settings))
+                result = {
+                    'key': message[5:],
+                    'settings': settings
+                }
+                await websocket.send(json.dumps(result))
             elif command == 'save':
                 data_to_save = json.loads(message[5:])
                 key = data_to_save['key']

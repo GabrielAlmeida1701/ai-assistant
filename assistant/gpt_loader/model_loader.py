@@ -1,3 +1,4 @@
+import gc
 import sys
 import time
 import inspect
@@ -114,6 +115,7 @@ def load_model():
 
     logger.info(f"Loading model {model_name}")
     shared.model = _load_quant(str(path_to_model), str(pt_path), 4, 128, kernel_switch_threshold=threshold)
+    shared.model_name = model_name
     logger.info(f'Model loaded {time.time() - t0:.4f}s')
 
     logger.info("Loading tokenizer")
@@ -125,4 +127,7 @@ def load_model():
     else:
         shared.tokenizer = AutoTokenizer.from_pretrained(path_to_model, trust_remote_code=False)
     logger.info('Tokenizer loaded')
-    
+
+def clear_torch_cache():
+    gc.collect()
+    torch.cuda.empty_cache()
