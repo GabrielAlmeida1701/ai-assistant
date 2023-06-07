@@ -1,0 +1,16 @@
+{
+    "programs": {
+        "enabled": true,
+        "unity_hub": "'F:/Program Files/x64/Unity Hub/Unity Hub.exe'",
+        "google_chrome": "'C:/Program Files/Google/Chrome/Application/chrome.exe' --profile-directory=Default",
+        "visual_studio": ""
+    },
+    "tts": {
+        "enabled": false,
+        "use_elevenlabs": true
+    },
+    "classify": {
+        "enabled": true,
+        "model": "joeddav/distilbert-base-uncased-go-emotions-student"
+    }
+}

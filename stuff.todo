@@ -1,0 +1,38 @@
+TODOs:
+    ✔ Replace history with a mysql table @done(23-06-04 17:38)
+        the table should have the user massage, the bot's message and a creation date
+        when creating context the X more recent messages should be pulled
+        for refinig the bot's training data all messages should be pulled
+    Overlay:
+        ✔ Minimize button @done(23-06-05 13:57)
+        ✔ Close button @done(23-06-05 14:15)
+        ☐ Settings menu
+        ☐ Settings: general (use_api, test_mode, change_model, turn_off_model, change_display)
+        ☐ Settings: gpt
+        ☐ Settings: plugins
+        ☐ Websocket (server)
+        ☐ Websocket (client)
+        ☐ When minimized move head up when talking
+    ☐ Add rotine to collect and sumirize the conversations for the previous day
+    ☐ Add langchain to pipeline
+        when requesting something it should go through RetrievalQA.from_chain_type
+        langchain & chroma are responsable for older context
+        history for current conversation
+        the template should be
+            SYSTEM
+            CHROMA
+            HISTORY
+            User_Input...
+
+Plugins:
+    ☐ Take notes
+    ☐ file analyzer (needs indexer job)
+    ☐ bot emotions (silly taver extras)
+    ☐ auto summary (silly taver extras)
+    ☐ Screenshot
+    ☐ Stable diffusion (maybe)
+    ☐ Discord (maybe)
+
+Yumi requests:
+    ☐ More voices (different accents)
+    ☐ overlay opacity ctrl
