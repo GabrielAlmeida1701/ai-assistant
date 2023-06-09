@@ -22,6 +22,9 @@ TODOs:
         ☐ Current bot emotion (based on last response)
         ☐ Current time
         ☐ Last message time
+    ☐ Research increasing the context awreness
+        Try to add a way so Yumi know what the user is doing at the current moment so she can provide useful info on the subject
+    ☐ Multi-Language (maybe this works already, but i need to test it)
 
 Overlay:
     ✔ Minimize button @done(23-06-05 13:57)
@@ -36,15 +39,23 @@ Overlay:
     ☐ When minimized move head up when talking
     ☐ Jobs:
         ☐ A rotine to collect and sumirize the conversations for the previous day
+    ☐ allow emojis
+    ☐ Personalization
+        Add custom function to the bot, like the ability to add new commands
+        MAYBE add a waifu mode on the overlay IF this goes public
 
 Plugins:
     ☐ Take notes
     ☐ file analyzer (needs indexer job)
     ✔ bot emotions (silly taver extras) @done(23-06-07 17:59)
+    ☐ reminders
     ☐ auto summary (silly taver extras)
     ☐ Screenshot
     ☐ Stable diffusion (maybe)
     ☐ Discord (maybe)
+    ☐ custom open api (maybe)
+        allow the assistent to call a api defined by the user
+    ☐ IoT
 
 Yumi requests:
     ☐ More voices (different accents)
