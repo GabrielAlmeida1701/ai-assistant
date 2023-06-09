@@ -10,16 +10,23 @@ from assistant import logger
 HOST = 'localhost:5000'
 URI = f'http://{HOST}/api/v1/generate'
 
-llm_settings: dict[str, Any] = load_settings('llm')
-general_settings: dict[str, Any] = load_settings('general')
-# history: list[str] = load_settings('history')
 bot_prefix = bot_name + ': '
 bot_name_len = len(bot_name)
-use_api: bool = general_settings['use_api']
 emoji_pattern = re.compile('[\U0001F300-\U0001F64F'
                             '\U0001F680-\U0001F6FF'
                             '\u2600-\u26FF\u2700-\u27BF]+', 
                             flags=re.UNICODE)
+
+def load_settings_bot():
+    global llm_settings
+    llm_settings: dict[str, Any] = load_settings('llm')
+
+    global general_settings
+    general_settings: dict[str, Any] = load_settings('general')
+
+    global use_api
+    use_api: bool = general_settings['use_api']
+load_settings_bot()
 
 def get_generation_params(prompt: str) -> dict:
     stopping_strings = [ 'User:', 'user:' ]

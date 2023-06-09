@@ -1,6 +1,7 @@
 import json
-from assistant import logger
+from assistant import logger, gpt_caller, conversation_handler
 from assistant.models.DBConnector import DBConnector
+from assistant.gpt_loader import shared
 
 db = DBConnector()
 
@@ -12,6 +13,17 @@ def load_settings(sfile: str):
 def save_settings(sfile: str, data):
     with open(f'./data/{sfile}.json', 'w') as file:
         json.dump(data, file, indent=4)
+
+    if sfile == 'general':
+        if gpt_caller.use_api != data['use_api']:
+            logger.warning('Model reload not implemented')
+        gpt_caller.load_settings_bot()
+    elif sfile == 'llm':
+        if shared.model_name != data['model']:
+            logger.warning('Model reload not implemented')
+        gpt_caller.load_settings_bot()
+    elif sfile == 'plugins':
+        conversation_handler.plugins.initialize_plugins()
 
 def load_plugin_settings(settings_key: str):
     data = load_settings('plugins')

@@ -18,6 +18,9 @@ class SentimentClassification(PluginBase):
         device = torch.device('cuda:0')
         torch_dtype = torch.float16
 
+        if self.classification_pipe:
+            del self.classification_pipe
+
         logger.info('Initializing a sentiment classification pipeline')
         self.classification_pipe = pipeline(
             "text-classification",
