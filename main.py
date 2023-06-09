@@ -67,6 +67,7 @@ class Handler(BaseHTTPRequestHandler):
             response = json.dumps({ 'success': True })
             self.wfile.write(response.encode('utf-8'))
         else:
+            print(f'Error accessing the path: {self.path}')
             self.send_error(404)
 
 try:

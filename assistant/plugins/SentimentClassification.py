@@ -1,4 +1,5 @@
 import torch
+import time
 from transformers import pipeline
 from assistant.models.PluginBase import PluginBase
 from assistant.data_manager import load_plugin_settings
@@ -18,9 +19,10 @@ class SentimentClassification(PluginBase):
         device = torch.device('cuda:0')
         torch_dtype = torch.float16
 
-        if self.classification_pipe:
+        if hasattr(self, 'classification_pipe'):
             del self.classification_pipe
 
+        t0 = time.time()
         logger.info('Initializing a sentiment classification pipeline')
         self.classification_pipe = pipeline(
             "text-classification",
@@ -29,6 +31,7 @@ class SentimentClassification(PluginBase):
             device=device,
             torch_dtype=torch_dtype
         )
+        logger.info(f'Sentiment classification pipeline loaded in {time.time() - t0}s')
 
     def process(self, gpt_response: str):
         if not self.enabled:

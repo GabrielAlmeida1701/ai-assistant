@@ -1,11 +1,12 @@
 import json
+from typing import Any
 from assistant import logger, gpt_caller, conversation_handler
 from assistant.models.DBConnector import DBConnector
 from assistant.gpt_loader import shared
 
 db = DBConnector()
 
-def load_settings(sfile: str):
+def load_settings(sfile: str) -> dict[str, Any]:
     with open(f'./data/{sfile}.json', 'r') as file:
         data = json.load(file)
     return data
@@ -25,7 +26,7 @@ def save_settings(sfile: str, data):
     elif sfile == 'plugins':
         conversation_handler.plugins.initialize_plugins()
 
-def load_plugin_settings(settings_key: str):
+def load_plugin_settings(settings_key: str) -> dict[str, Any]:
     data = load_settings('plugins')
     if settings_key not in data:
         data[settings_key] = { 'enabled': True }
@@ -34,7 +35,7 @@ def load_plugin_settings(settings_key: str):
 
 def save_prompt(prompt: str):
     try:
-        with open(f'./resources/prompt.txt', 'w') as file:
+        with open(f'./resources/prompt.txt', 'w', encoding='utf-8') as file:
             file.write(prompt)
             file.close()
     except Exception as e:
