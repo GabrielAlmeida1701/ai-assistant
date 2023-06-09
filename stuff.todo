@@ -4,21 +4,10 @@ TODOs:
         when creating context the X more recent messages should be pulled
         for refinig the bot's training data all messages should be pulled
     ✔ Replace websockets with http server @done(23-06-07 19:23)
-    Overlay:
-        ✔ Minimize button @done(23-06-05 13:57)
-        ✔ Close button @done(23-06-05 14:15)
-        ☐ Settings menu
-        ✔ Settings: general (use_api, test_mode, hiatus time) @done(23-06-07 01:06)
-            ☐ turn_off_model, change_display
-        ☐ Settings: gpt
-        ✔ Settings: plugins @done(23-06-07 01:19)
-        ✔ Websocket (server) @done(23-06-07 01:06)
-        ✔ Websocket (client) @done(23-06-07 01:06)
-        ☐ When minimized move head up when talking
-    ✔ Reload nescessary settings on save @done(23-06-09 03:07)
-    ☐ Reload model
-    ☐ Add rotine to collect and sumirize the conversations for the previous day
-    ☐ Add a way for when returning the last message also go through the plugins again, allowing some to be skipped
+    ✔ Reload nescessary settings on save @done(23-06-09 03:13)
+    ☐ Add a way for when returning the last message also go through the plugins again
+    ☐ Add intent recognition
+        the intent recognition should help define what goes into the context
     ☐ Add langchain to pipeline
         when requesting something it should go through RetrievalQA.from_chain_type
         langchain & chroma are responsable for older context
@@ -33,15 +22,40 @@ TODOs:
         ☐ Current bot emotion (based on last response)
         ☐ Current time
         ☐ Last message time
+    ☐ Research increasing the context awreness
+        Try to add a way so Yumi know what the user is doing at the current moment so she can provide useful info on the subject
+    ☐ Multi-Language (maybe this works already, but i need to test it)
+
+Overlay:
+    ✔ Minimize button @done(23-06-05 13:57)
+    ✔ Close button @done(23-06-05 14:15)
+    ☐ Settings menu
+    ✔ Settings: general (use_api, test_mode, hiatus time) @done(23-06-07 01:06)
+        ☐ turn_off_model, change_display
+    ☐ Settings: gpt
+    ✔ Settings: plugins @done(23-06-07 01:19)
+    ✔ Websocket (server) @done(23-06-07 01:06)
+    ✔ Websocket (client) @done(23-06-07 01:06)
+    ☐ When minimized move head up when talking
+    ☐ Jobs:
+        ☐ A rotine to collect and sumirize the conversations for the previous day
+    ☐ allow emojis
+    ☐ Personalization
+        Add custom function to the bot, like the ability to add new commands
+        MAYBE add a waifu mode on the overlay IF this goes public
 
 Plugins:
     ☐ Take notes
     ☐ file analyzer (needs indexer job)
     ✔ bot emotions (silly taver extras) @done(23-06-07 17:59)
+    ☐ reminders
     ☐ auto summary (silly taver extras)
     ☐ Screenshot
     ☐ Stable diffusion (maybe)
     ☐ Discord (maybe)
+    ☐ custom open api (maybe)
+        allow the assistent to call a api defined by the user
+    ☐ IoT
 
 Yumi requests:
     ☐ More voices (different accents)
