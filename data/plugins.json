@@ -6,7 +6,7 @@
         "visual_studio": "'C:/Users/Tron/AppData/Local/Programs/Microsoft VS Code/Code.exe'"
     },
     "tts": {
-        "enabled": true,
+        "enabled": false,
         "use_elevenlabs": true
     },
     "classify": {

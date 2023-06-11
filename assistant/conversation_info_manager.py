@@ -2,31 +2,32 @@ from datetime import datetime
 from assistant.data_manager import load_settings, save_settings
 from assistant.plugin_manager import PluginManager
 
-datetime_format = "%Y-%m-%d %H:%M"
-user_info = load_settings('user_info')
+datetime_format = "%m/%d/%Y %H:%M"
+info = load_settings('conversation_info')
 
 def fill_user_info(prompt: str) -> str:
-    prompt = prompt.format(
-        user_sentiment=user_info['user_sentiment'],
+    current_date = datetime.now().strftime('%m/%d/%Y') + ' ' + datetime.now().strftime('%A')
+
+    return prompt.format(
+        user_sentiment=info['user_sentiment'],
         last_message=time_difference(),
-        current_date=datetime.now().strftime(datetime_format)
+        current_date=current_date
     )
-    #TODO: birthday
 
 def update_bot_sentiment(sentiment: str):
-    user_info['bot_sentiment'] = sentiment
-    save_settings('user_info', user_info)
+    info['bot_sentiment'] = sentiment
+    save_settings('conversation_info', info)
 
 def update_last_message(user_input: str):
     if user_input == '_HIATUS_':
         return
     
-    user_info['user_sentiment'] = PluginManager().execute_plugin('SentimentClassification', user_input, 'neutral')
-    user_info['last_message'] = datetime.now().strftime("%m/%d/%Y %H:%M")
-    save_settings('user_info', user_info)
+    info['user_sentiment'] = PluginManager().execute_plugin('SentimentClassification', user_input, 'neutral')
+    info['last_message'] = datetime.now().strftime(datetime_format)
+    save_settings('conversation_info', info)
 
 def time_difference():
-    start_datetime = datetime.strptime(user_info['last_message'], datetime_format)
+    start_datetime = datetime.strptime(info['last_message'], datetime_format)
     end_datetime = datetime.now()
 
     time_difference = end_datetime - start_datetime
@@ -47,3 +48,4 @@ def time_difference():
 
     if seconds > 0 or result == "":
         result += f"{', ' if result != '' else ''}{seconds} second{'s' if seconds > 1 else ''}"
+    return result

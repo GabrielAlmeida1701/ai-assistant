@@ -5,6 +5,7 @@ TODOs:
         for refinig the bot's training data all messages should be pulled
     ✔ Replace websockets with http server @done(23-06-07 19:23)
     ✔ Reload nescessary settings on save @done(23-06-09 03:13)
+    ☐ Train lora
     ☐ Add a way for when returning the last message also go through the plugins again
     ☐ Add intent recognition
         the intent recognition should help define what goes into the context
@@ -27,6 +28,7 @@ TODOs:
     ☐ Research increasing the context awreness
         Try to add a way so Yumi know what the user is doing at the current moment so she can provide useful info on the subject
     ☐ Multi-Language (maybe this works already, but i need to test it)
+    ☐ Find out why she cannot read the current date from the context
 
 Overlay:
     ✔ Minimize button @done(23-06-05 13:57)

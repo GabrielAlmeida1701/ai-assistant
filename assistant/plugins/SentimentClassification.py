@@ -17,8 +17,6 @@ class SentimentClassification(PluginBase):
             return
 
         device = torch.device('cuda:0')
-        torch_dtype = torch.float16
-
         if hasattr(self, 'classification_pipe'):
             del self.classification_pipe
 
@@ -29,7 +27,7 @@ class SentimentClassification(PluginBase):
             model=settings['model'],
             top_k=None,
             device=device,
-            torch_dtype=torch_dtype
+            torch_dtype=torch.float16
         )
         logger.info(f'Sentiment classification pipeline loaded in {time.time() - t0}s')
 

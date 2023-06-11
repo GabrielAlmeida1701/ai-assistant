@@ -103,6 +103,7 @@ def write_default_prompt(user_input: str) -> str:
 <START>
 {concat_history}
 User: {user_input}
+Yumi: 
 """
 
 def build_prompt(user_input: str):

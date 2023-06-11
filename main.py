@@ -20,7 +20,7 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response.encode('utf-8'))
 
-        if self.path.startswith('/api/settings'):
+        elif self.path.startswith('/api/settings'):
             parsed_url = urlparse(self.path)
             params = parse_qs(parsed_url.query)
 
@@ -37,6 +37,7 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response.encode('utf-8'))
         else:
+            print(f'POST: Error accessing the path: {self.path}')
             self.send_error(404)
 
     def do_POST(self):
@@ -55,7 +56,7 @@ class Handler(BaseHTTPRequestHandler):
             response = json.dumps(anwser)
 
             self.wfile.write(response.encode('utf-8'))
-        if self.path == '/api/settings':
+        elif self.path == '/api/settings':
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
@@ -67,7 +68,7 @@ class Handler(BaseHTTPRequestHandler):
             response = json.dumps({ 'success': True })
             self.wfile.write(response.encode('utf-8'))
         else:
-            print(f'Error accessing the path: {self.path}')
+            print(f'POST: Error accessing the path: {self.path}')
             self.send_error(404)
 
 try:
