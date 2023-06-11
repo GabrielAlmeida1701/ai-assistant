@@ -1,6 +1,6 @@
 import os
-import json
 import importlib.util
+from assistant.models.PluginBase import PluginBase
 
 class PluginManager():
     _instance = None
@@ -29,7 +29,7 @@ class PluginManager():
 
     def load_plugins(self):
         plugin_modules = self.discover_plugins()
-        plugins = []
+        plugins: list[PluginBase] = []
 
         for (module, module_name) in plugin_modules:
             if hasattr(module, "PluginBase"):
@@ -38,16 +38,25 @@ class PluginManager():
                 plugins.append(plugin)
 
         plugins.sort(key=lambda x: x.get_priority())
-        self.plugins = plugins
+        self.plugins_map: dict[str, PluginBase] = {
+            type(plugin).__name__: plugin
+            for plugin in plugins
+        }
 
     def initialize_plugins(self):
-        for plugin in self.plugins:
+        for plugin in self.plugins_map.values():
             plugin.initialize()
     
     def process(self, gpt_response: str) -> str:
         output = { 'response': gpt_response }
-        for plugin in self.plugins:
+        for name, plugin in self.plugins_map.items():
             result = plugin.process(gpt_response)
             if result is not None:
-                output[type(plugin).__name__] = result
+                output[name] = result
         return output
+
+    def execute_plugin(self, plugin_name: str, input: str, default = None):
+        if plugin_name in self.plugins_map:
+            plugin = self.plugins_map[plugin_name]
+            return plugin.process(input)
+        return default

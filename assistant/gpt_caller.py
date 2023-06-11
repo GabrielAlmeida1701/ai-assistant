@@ -4,7 +4,8 @@ import requests
 import tiktoken
 from assistant.models.gpt_char_info import context, bot_name, example_dialog
 from assistant.data_manager import load_settings, retrive_history, add_to_history, save_prompt
-from assistant import logger
+from assistant.plugin_manager import PluginManager
+from assistant import conversation_info_manager, logger
 
 
 HOST = 'localhost:5000'
@@ -93,7 +94,7 @@ def clean_response(response: str) -> str:
 
     return response
 
-def write_default_prompt(user_input: str):
+def write_default_prompt(user_input: str) -> str:
     history = retrive_history()
     concat_history = '\n'.join(history)
 
@@ -107,6 +108,7 @@ User: {user_input}
 def build_prompt(user_input: str):
     prompt = write_default_prompt(user_input)
     prompt = remove_emojis(prompt)
+    prompt = conversation_info_manager.fill_user_info(prompt)
 
     tokens_count = num_tokens_from_messages([prompt])
     return prompt, tokens_count
@@ -126,6 +128,8 @@ def generate_reply(prompt: str) -> str:
     return generator(generation_params)
 
 def ask(user_input: str) -> tuple[str, int]:
+    conversation_info_manager.update_last_message(user_input)
+
     user_input = user_input.strip()
     prompt, tokens_count = build_prompt(user_input)
     
@@ -134,6 +138,7 @@ def ask(user_input: str) -> tuple[str, int]:
 
     logger.info(f'Total tokens: {tokens_count}')
     save_prompt(prompt)
+
     response = clean_response(generate_reply(prompt))
     if not general_settings['test_mode']:
         add_to_history(f'User: {user_input}')

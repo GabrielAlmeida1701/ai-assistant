@@ -1,6 +1,6 @@
-import json
 from assistant import plugin_manager, gpt_caller
 from assistant.data_manager import add_to_tokens_count, retrive_history, add_to_history
+from assistant.conversation_info_manager import update_bot_sentiment
 
 plugins = plugin_manager.PluginManager()
 plugins.initialize_plugins()
@@ -8,6 +8,10 @@ plugins.initialize_plugins()
 def ask_yumi(message: str) -> dict:
     response, tokens = gpt_caller.ask(message)
     output = plugins.process(response)
+
+    if 'SentimentClassification' in output:
+        update_bot_sentiment(output['SentimentClassification'])
+
     add_to_tokens_count(tokens)
     return output
 

@@ -18,10 +18,12 @@ TODOs:
             HISTORY
             User_Input...
     ☐ Add more info to the context
-        ☐ Current user emotion (based on last user_input)
-        ☐ Current bot emotion (based on last response)
-        ☐ Current time
-        ☐ Last message time
+        ✔ Current user emotion (based on last user_input) @done(23-06-11 00:34)
+        ✔ Current bot emotion (based on last response) @done(23-06-11 00:34)
+        ✔ Current time @done(23-06-11 00:39)
+        ✔ Last message time @done(23-06-11 00:56)
+        ☐ User birthday
+        ☐ Bot birthday
     ☐ Research increasing the context awreness
         Try to add a way so Yumi know what the user is doing at the current moment so she can provide useful info on the subject
     ☐ Multi-Language (maybe this works already, but i need to test it)
